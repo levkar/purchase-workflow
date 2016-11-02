@@ -151,9 +151,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
         for item in self.item_ids:
             line = item.line_id
-            if line.purchase_state == 'done':
+            if line.purchase_state not in ('none', 'cancel'):
                 raise exceptions.Warning(
-                    _('The purchase has already been completed.'))
+                    _('A RFQ has already been created for this purchase request.'))
             if item.product_qty <= 0.0:
                 raise exceptions.Warning(
                     _('Enter a positive quantity.'))
